@@ -7,6 +7,7 @@ const settingsBtn = document.getElementById('settings-btn');
 const settings = document.getElementById('settings');
 const settingsForm = document.getElementById('settings-form');
 const difficultySelect = document.getElementById('difficulty');
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
 
 // List of words for game
 const words = [
@@ -52,6 +53,12 @@ difficultySelect.value =
   localStorage.getItem('difficulty') !== null
     ? localStorage.getItem('difficulty')
     : 'medium';
+
+// Apply theme from ls or default to dark
+if (localStorage.getItem('theme') === 'light') {
+  document.body.classList.add('light-mode');
+  themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+}
 
 // Focus on text on start
 text.focus();
@@ -133,4 +140,13 @@ settingsBtn.addEventListener('click', () => settings.classList.toggle('hide'));
 settingsForm.addEventListener('change', e => {
   difficulty = e.target.value;
   localStorage.setItem('difficulty', difficulty);
+});
+
+// Theme toggle btn click
+themeToggleBtn.addEventListener('click', () => {
+  const isLight = document.body.classList.toggle('light-mode');
+  themeToggleBtn.innerHTML = isLight
+    ? '<i class="fas fa-sun"></i>'
+    : '<i class="fas fa-moon"></i>';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
 });
